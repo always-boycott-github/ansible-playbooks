@@ -1,0 +1,18 @@
+[Unit]
+Description=consul-template
+Requires=consul.target
+After=consul.target
+
+[Service]
+User=consul
+Group=consul
+PermissionsStartOnly=true
+ExecStart={{ consul_template_bin_dir }}/consul-template {% for config in consul_tmpl_template_configs %} -config "{{ consul_template_config_dir }}/{{ config }}.hcl"{% endfor %}
+
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGINT
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target

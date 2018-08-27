@@ -11,5 +11,8 @@
     - role: load-balancer
       tags: 'load-balancer'
 
+    - role: consul-template
+      tags: 'consul-template'
+
     - role: node-exporter
       tags: 'node-exporter'

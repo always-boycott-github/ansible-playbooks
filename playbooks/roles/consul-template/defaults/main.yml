@@ -1,0 +1,31 @@
+---
+
+consul_tmpl_version: "0.19.5"
+consul_tmpl_url: "https://releases.hashicorp.com/consul-template/{{ consul_tmpl_version }}/consul-template_{{ consul_tmpl_version }}_linux_amd64.zip"
+
+consul_tmpl_bin_dir: "/usr/local/bin"
+consul_tmpl_config_dir: "/etc/consul-template"
+consul_tmpl_template_dir: "{{ consul_tmpl_config_dir }}/templates"
+
+consul_tmpl_max_stale: 1m
+consul_tmpl_log_level: warn
+
+consul_tmpl_wait_min: 5s
+consul_tmpl_wait_max: 10s
+
+consul_tmpl_retry_attempts: 12
+consul_tmpl_retry_backoff: 250ms
+consul_tmpl_retry_max_backoff: 1m
+
+consul_tmpl_syslog_facility: LOCAL0
+
+consul_tmpl_deduplicate_prefix: consul-tmpl/dedup
+
+# Should correspond to <name> in `templates/<name>.hcl.j2` files.
+consul_tmpl_template_configs:
+  - config
+  - haproxy
+
+# Should correspond to <name> in `files/<name>.ctmpl` files.
+consul_tmpl_templates:
+  - haproxy

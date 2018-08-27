@@ -1,0 +1,49 @@
+---
+
+- name: Create consul-template directories
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner }}"
+    group: consul
+    mode: 0750
+  with_items:
+    - { path: "{{ consul_tmpl_config_dir }}", owner: root }
+    - { path: "{{ consul_tmpl_template_dir }}", owner: root }
+
+- name: Download and unarchive the consul-template binary
+  unarchive:
+    src: "{{ consul_tmpl_url }}"
+    dest: "{{ consul_tmpl_bin_dir }}"
+    owner: consul
+    group: consul
+    remote_src: yes
+  notify: restart consul-template
+
+- name: Create consul-template configuration files
+  template:
+    src: "{{ item }}.hcl.j2"
+    dest: "{{ consul_tmpl_config_dir }}/{{ item }}.hcl"
+    group: consul
+  notify: reload consul-template
+  with_items: "{{ consul_tmpl_template_configs }}"
+
+- name: Create consul-template template files
+  copy:
+    src: "{{ item }}.ctmpl"
+    dest: "{{ consul_tmpl_template_dir}}/{{ item }}.ctmpl"
+    group: consul
+  notify: reload consul-template
+  with_items: "{{ consul_tmpl_templates }}"
+
+- name: Create consul-template systemd service file
+  template:
+    src: consul-template.service.j2
+    dest: /etc/systemd/system/consul-template.service
+
+- name: Enable and start systemd service to start on boot automatically
+  systemd:
+    name: consul-template.service
+    enabled: yes
+    state: started
+    daemon_reload: yes

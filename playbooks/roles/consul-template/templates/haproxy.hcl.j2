@@ -1,0 +1,12 @@
+template {
+  source      = "{{ consul_tmpl_template_dir }}/haproxy.ctmpl"
+  destination = "/etc/haproxy/haproxy.cfg"
+
+  create_dest_dirs = false
+
+  command = "touch {{ LOAD_BALANCER_RELOAD_FILE }}"
+
+  error_on_missing_key = true
+
+  backup = true
+}

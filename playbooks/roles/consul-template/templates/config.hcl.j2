@@ -1,0 +1,29 @@
+### WARNING: ###
+# This file is managed via Ansible. Manual changes to this file will be overwritten.
+# For documentation see https://github.com/hashicorp/consul-template/blob/v{{ consul_tmpl_version }}/README.md
+################
+
+max_stale = "{{ consul_tmpl_max_stale }}"
+
+log_level = "{{ consul_tmpl_log_level }}"
+
+wait {
+  min = "{{ consul_tmpl_wait_min }}"
+  max = "{{ consul_tmpl_wait_max }}"
+}
+
+consul {
+  retry {
+    attempts    = {{ consul_tmpl_retry_attempts }}
+    backoff     = "{{ consul_tmpl_retry_backoff }}"
+    max_backoff = "{{ consul_tmpl_retry_max_backoff }}"
+  }
+}
+
+syslog {
+  facility = "{{ consul_tmpl_syslog_facility }}"
+}
+
+deduplicate {
+  prefix = "{{ consul_tmpl_deduplicate_prefix }}/"
+}
