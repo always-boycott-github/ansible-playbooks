@@ -29,6 +29,10 @@ MATTERMOST_PUBLIC_LINK_SALT: set-me-please
 
 # Sender for notification emails
 MATTERMOST_FEEDBACK_EMAIL: no-reply@example.com
+MATTERMOST_SMTP_USERNAME: set-me-please
+MATTERMOST_SMTP_PASSWORD: set-me-please
+MATTERMOST_SMTP_SERVER: set-me-please
+MATTERMOST_SMTP_PORT: set-me-please
 
 # Autolink configuration
 # Example:
